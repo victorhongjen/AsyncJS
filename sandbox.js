@@ -88,6 +88,10 @@ const getToDos = ((resource)=> {
 const gettingToDos = async () => { //async in front of the callback function is now an async function. Always returns a promise.
     //grab data
     const response = await fetch("todos/charlene.json"); // returns promise stalls by await
+
+    if (response.status !== 200) {
+        throw new Error("cannot feth data"); //throw our own error. If error is thrown, async function promise will be rejected.
+    }
     const data = await response.json(); //response.json returns a promise, resolve with await and assign to data variable
     return data
 }
@@ -95,7 +99,5 @@ const gettingToDos = async () => { //async in front of the callback function is 
 //gettingToDos() //returns a promise
 
 gettingToDos()
-    .then(data => console.log("resolved", data)); //still need one .then() because async returns a promise
-
-
-
+    .then(data => console.log("resolved", data))//still need one .then() because async returns a promise
+    .catch(err => console.log("rejected", err.message))
