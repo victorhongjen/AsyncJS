@@ -21,12 +21,18 @@ const getToDos = ((resource)=> {
     })
 });
 
-
-getToDos("todos/charlene.JSON").then(data => {
-    console.log("promise resolved", data)
-}).catch(err => {
-    console.log(err)
-})
+//chaining promises
+    // getToDos("todos/charlene.json").then( data => {
+    //     console.log("promise 1 resolved", data);
+    //     return getToDos("todos/stan.json");
+    // }).then( data => {
+    //     console.log("promise 2 resolved", data);
+    //     return getToDos("todos/victor.json");
+    // }).then( data => {
+    //     console.log("promise 3 resolved", data)
+    // }).catch( err => {
+    //     console.log(err)
+    // })
 
 //callback hell
 
@@ -63,6 +69,28 @@ getToDos("todos/charlene.JSON").then(data => {
 // }).catch(err=>{
 //     console.log(err)
 // });
+
+
+
+//fetch API
+
+// fetch("todos/charlene.json").then((response)=> {
+//     console.log("resolved", response);
+//     return response.json()
+// }).then(data=> {
+//     console.log(data)
+// }).catch((err)=> {
+//     console.log("rejected", err)
+// })
+
+//async await
+
+const gettingToDos = async () => { //async in front of the callback function is now an async function. Always returns a promise.
+    //grab data
+    fetch("todos/charlene.json")
+}
+
+console.log(gettingToDos());
 
 
 
