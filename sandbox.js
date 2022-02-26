@@ -87,10 +87,15 @@ const getToDos = ((resource)=> {
 
 const gettingToDos = async () => { //async in front of the callback function is now an async function. Always returns a promise.
     //grab data
-    fetch("todos/charlene.json")
+    const response = await fetch("todos/charlene.json"); // returns promise stalls by await
+    const data = await response.json(); //response.json returns a promise, resolve with await and assign to data variable
+    return data
 }
 
-console.log(gettingToDos());
+//gettingToDos() //returns a promise
+
+gettingToDos()
+    .then(data => console.log("resolved", data)); //still need one .then() because async returns a promise
 
 
 
