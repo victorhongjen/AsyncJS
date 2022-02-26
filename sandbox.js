@@ -1,34 +1,68 @@
-const getToDos = (callback) => { 
-    const request = new XMLHttpRequest();
+const getToDos = ((resource)=> {
+
+    return new Promise((resolve, reject)=> {
     
-    request.addEventListener("readystatechange", () => { //fired when state changes
-        //console.log(request, request.readyState)// request obj and its current state
-        if (request.readyState === 4 && request.status === 200) { 
-            //do something to the  data
-            callback(undefined, request.responseText) //callback function with error or responseText
-        } else if (request.readyState === 4) {
-            callback("couldn't fetch data", undefined)
-        }
+        const request = new XMLHttpRequest();
+        
+        request.addEventListener("readystatechange", () => { //fired when state changes
+            //console.log(request, request.readyState)// request obj and its current state
+            if (request.readyState === 4 && request.status === 200) { 
+                //do something to the  data
+                const data = JSON.parse(request.responseText) //turn JSON string to JS obj
+                resolve(data)
+            } else if (request.readyState === 4) {
+                reject("error getting data")
+            }
+        })
+        
+        request.open("GET", resource); //setting up request path
+        
+        request.send();
     })
-    
-    request.open("GET", "https://jsonplaceholder.typicode.com/todos/"); //setting up request path
-    
-    request.send();
-};
+});
 
-console.log(1)
-console.log(2)
-getToDos((err, data) => { //add callback function in getToDos function. Convention is err, data.
-    console.log("callback fired"); //will not block the code. Pass back data when network data request complete
-    if(err) {
-        console.log(err);
-    }else {
-        console.log(data);
-    }
-}); 
-console.log(3)
-console.log(4)
 
+getToDos("todos/charlene.JSON").then(data => {
+    console.log("promise resolved", data)
+}).catch(err => {
+    console.log(err)
+})
+
+//callback hell
+
+// getToDos("todos/charlene.json", (err, data) => { //add callback function in getToDos function. Convention is err, data.
+//     console.log(data); //will not block the code. Pass back data when network data request complete
+//     getToDos("todos/stan.json", (err, data) => {
+//         console.log(data);
+//         getToDos("todos/victor.json", (err,data) => {
+//             console.log(data);
+//         })
+//     })
+// }); 
+
+//promises
+
+// const getSomething = () => {
+//     //some network request
+
+//     return new Promise((resolve, reject)=> {
+//         //fetch something
+//         resolve("some data") //data from fetch
+//         // reject("some error") //error from fetch
+//     });
+// }
+
+// getSomething().then(data => {
+//     console.log(data)
+// }, err => {
+//     console.log(err)
+// }); 
+
+// getSomething().then(data=>{
+//     console.log(data)
+// }).catch(err=>{
+//     console.log(err)
+// });
 
 
 
